@@ -1,0 +1,26 @@
+.BestSellingContainer{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 220px;
+}
+.BestSellingTitle{
+    text-align: center;
+    color: #355E3B;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 10px;
+}
+.priceContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80px;
+}
+.priceContainer :nth-child(1){
+    color: #355E3B;
+}
+.priceContainer :nth-child(2){
+    color: gray;
+}
