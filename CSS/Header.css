@@ -5,6 +5,7 @@
 .MenuImg{
     width: 50px;
     height: 20px;
+    align-self: center;
 }
 .HeaderConatiner{
     display: flex;
@@ -14,7 +15,21 @@
 li{
     margin-right: 50px;
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: #355E3B;
 
+}
+a{
+    text-decoration: none;
+    transition: color 0.3s ease; 
+}
+    
+.heroSectionContent{
+    width: 400px;
+display: flex;
+flex-direction: column;
+margin-left: 50px;
+justify-content: center;
 }
 .headerList{
     display: flex;
@@ -31,15 +46,18 @@ li{
 }   
 .heroSection{
     width: 100%;
-    background: url('../images/Agriculture.jpg') ;
-    height: 200px;
+    background: url('../images/nature22.jpeg') ;
+    background-size: cover; /* or 'contain' depending on your preference */
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 80vh;
 }
 .HeroTitle{
     color: white;
     font-size: 30px;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
-
+margin-top: 30px;
 }
 .HeroText{
     color: white;
@@ -55,6 +73,9 @@ li{
     border: none;
     margin-top: 60px;
     font-family: Arial, Helvetica, sans-serif;
-
+    height: 30px;
     color: white;
 }
+a li:hover{
+    color: #90EE90;
+  }

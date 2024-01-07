@@ -1,5 +1,5 @@
 <template>
-  <div class="CategoryContainer">
+  <div id="CategoryContainer">
   <p class="CategoryTitle"> Browse By Category</p>
   <div class = "SubCategoryContainer">
   <div>

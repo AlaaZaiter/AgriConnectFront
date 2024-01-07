@@ -1,5 +1,5 @@
 <template>
-  <div class="MostPopularPostsContainer">
+  <div id="MostPopularPostsContainer">
   <p class="PostsTitle">Most Popular Posts</p>
   <div class ="SubPostsContainer">
   <div>
@@ -26,6 +26,7 @@
 
 <script>
 import '../CSS/MostPopularPosts.css'
+
 export default {
   name: 'MostPopularPostsContainer',
 };

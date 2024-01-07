@@ -4,6 +4,18 @@
     background-color: white;
     height: 220px;
 }
+.SubBestSellingContainer{
+    display: flex;
+    flex-direction: row;
+}
+.Itemsdiv{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+}
 .BestSellingTitle{
     text-align: center;
     color: #355E3B;
@@ -22,5 +34,18 @@
     color: #355E3B;
 }
 .priceContainer :nth-child(2){
+    color: gray;
+}
+.PostsImg{
+width: 70%;
+}
+.starsReview{
+   display: flex;
+   flex-direction: row; 
+}
+.star{
+    color: #FFAD33;
+}
+.numderReview{
     color: gray;
 }
