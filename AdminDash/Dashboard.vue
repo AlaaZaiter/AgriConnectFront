@@ -1,42 +1,43 @@
 <template>
   <div class="Dashboard">
     <div class="side-menu">
-      <p class="dash-title" @click="handleClick('default')"> Farmer Dashboard</p>
+      <p class="dash-title" @click="handleClick('default')"> Admin Dashboard</p>
       <ul class="dash-menu">
-        <li class="dash-menu-item" @click="handleClick('posts')">Posts</li>
         <li class="dash-menu-item" @click="handleClick('products')">Products</li>
-        <li class="dash-menu-item" @click="handleClick('orders')">Orders</li>
+        <li class="dash-menu-item" @click="handleClick('orders')">Accounts</li>
+        <li class="dash-menu-item" @click="handleClick('categories')">Categories</li>
       </ul>
     </div>
     <hr />
     <div class="dash-content">
-      <div id="dash-email" v-show="activeSection === 'posts'">
-        <postsDash />
-      </div>
+      
       <div id="dash-projects" v-show="activeSection === 'products'">
         <productsDash />
       </div>
       <div id="dash-cv" v-show="activeSection === 'orders'">
-        <ordersDash />
+        <AccountsDash />
+      </div>
+      <div id="dash-cv" v-show="activeSection === 'categories'">
+        <CategoryDash />
       </div>
       <div id="default" v-show="activeSection === 'default'">
-        <h2 class="default-dash-title">Welcome to the dashboard</h2>
+        <h2 class="default-dash-title">Welcome to Admin dashboard</h2>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import PostsDash from './Posts.vue';
 import ProductsDash from './products.vue';
-import OrdersDash from './orders.vue';
+import AccountsDash from './Accounts.vue';
+import CategoryDash from './Caregories.vue'
 import '../CSS/FarmerDash.css';
 export default {
   name: 'DashboardPage',
   components: {
-    PostsDash,
-    OrdersDash,
     ProductsDash,
+    AccountsDash,
+    CategoryDash,
   },
   data() {
     return {
@@ -55,6 +56,9 @@ export default {
         case 'orders':
           this.activeSection = 'orders';
           break;
+        case 'categories':
+          this.activeSection = 'categories';
+          break;
         default:
           this.activeSection = 'default';
       }
@@ -64,5 +68,5 @@ export default {
 </script>
 
 <style scoped>
-
+/* Add your component-specific styles here */
 </style>

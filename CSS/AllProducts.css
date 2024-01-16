@@ -1,5 +1,12 @@
 .AllProductsContainer {
     display: flex;
-    flex-wrap: wrap;
     gap: 20px; /* Adjust the gap between items */
+    justify-content: center;
+
+  }
+  .subProductsContainer{
+    display: flex;
+    flex-wrap: wrap;
+    width: 70%;
+    justify-content: center;
   }

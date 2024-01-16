@@ -4,8 +4,8 @@
       <div class="form-container sign-in-container" v-show="activePanel === 'sign-in'">
         <form class="logInForm" @submit.prevent="handleLogin">
           <h1 class="h1login">Sign in</h1>
-          <input class="inputlogin" type="email" placeholder="Email" v-model="email" />
-          <input class="inputlogin" type="password" placeholder="Password" v-model="password" />
+          <input class="inputlogin" type="email" placeholder="Email" v-model="emailLogin" />
+          <input class="inputlogin" type="password" placeholder="Password" v-model="passwordLogin" />
           <p>{{ message }}</p>
           <button class="Sign" type="submit">Sign In</button>
         </form>
@@ -42,6 +42,9 @@
 
 <script>
 import '../CSS/Login.css';
+import axios from 'axios';
+
+
 
 export default {
   name: 'LoginApp',
@@ -49,22 +52,62 @@ export default {
   },
   data() {
     return {
-      name: 'LoginContainer',
+      name: '',
       phone: '',
       email: '',
       password: '',
       message: '',
+      emailLogin:'',
+      passwordLogin:'',
       activePanel: 'sign-in',
+      error: null,
     };
   },
   methods: {
-    handleLogin() {
-      // Implement your login logic here
-      // Access data using this.email, this.password
-    },
-    handleSignUp() {
-      // Implement your sign-up logic here
-      // Access data using this.name, this.phone, this.email, this.password
+    async handleLogin() {
+    try {
+      const response = await axios.post('http://localhost:6001/user/login', {
+        email: this.emailLogin,
+        password: this.passwordLogin,
+      });
+      console.log('User logged in successfully: ', response.data.data);
+      const token = response.data.token;
+      if (token) {
+        sessionStorage.setItem("authToken", token);
+        this.$router.push('/');
+      } else {
+        console.error('Token not found in response');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+    async handleSignUp() {
+      try {
+
+        const response = await axios.post('http://localhost:6001/user/register',{
+          FullName: this.name,
+          email: this.email,
+          phoneNumber: this.phone,
+          password: this.password,
+        })
+
+        console.log('User added successfully:', response.data);
+        console.log('API response:', response.data);
+        const token = response.data.data.token;
+
+    if (token) {
+        sessionStorage.setItem("authToken", token);
+        this.$router.push('/');
+      } else {
+        console.error('Token not found in response');
+      }
+      
+        
+
+      } catch (error) {
+        console.log(error)
+      }
     },
     handleSignInClick() {
       this.activePanel = 'sign-in';

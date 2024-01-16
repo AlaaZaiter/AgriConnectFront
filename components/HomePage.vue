@@ -19,11 +19,18 @@ import MostPopularPosts from './MostPopularPosts.vue';
 import Category from './Category.vue';
 import OurProducts from './OurProducts.vue';
 import contact from './ContactUs.vue';
-import Footer from './Footer.vue'
+import Footer from './Footer.vue';
+import { getUserID } from "../Util/Userdata.js";
+
 export default {
   name: 'HomePage',
+  data() {
+    return {
+      userId: getUserID() // Assuming getUserID is a function that returns the user ID
+    };
+  },
   components: {
-    AppHeader ,
+    AppHeader,
     About,
     MostPopularPosts,
     Category,
@@ -32,4 +39,5 @@ export default {
     Footer,
   },
 };
+
 </script>
