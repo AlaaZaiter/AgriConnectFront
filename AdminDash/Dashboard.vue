@@ -1,7 +1,7 @@
-<template>
+<template >
   <div class="Dashboard">
     <div class="side-menu">
-      <p class="dash-title" @click="handleClick('default')"> Admin Dashboard</p>
+      <p class="dash-title" @click="handleClick('default')">Welcome {{ this.userData.FullName }} </p>
       <ul class="dash-menu">
         <li class="dash-menu-item" @click="handleClick('products')">Products</li>
         <li class="dash-menu-item" @click="handleClick('orders')">Accounts</li>
@@ -30,7 +30,9 @@
 <script>
 import ProductsDash from './products.vue';
 import AccountsDash from './Accounts.vue';
-import CategoryDash from './Caregories.vue'
+import CategoryDash from './Caregories.vue';
+import {getUserID} from '../Util/Userdata';
+import axios from 'axios';
 import '../CSS/FarmerDash.css';
 export default {
   name: 'DashboardPage',
@@ -42,7 +44,14 @@ export default {
   data() {
     return {
       activeSection: 'default',
+      userId: null,
+      userData:{},
     };
+  },
+  async created() {
+    this.userId = await getUserID();
+    await this.getUserData(this.userId);
+
   },
   methods: {
     handleClick(section) {
@@ -62,7 +71,23 @@ export default {
         default:
           this.activeSection = 'default';
       }
+      
     },
+    async getUserData(userId){
+      if(userId !=null){
+       const api =`http://localhost:6001/user/getByID/${userId}`;
+       try {
+        const response=  await axios.get(api);
+        console.log(api)
+        console.log(response.data.data.FullName)
+        this.userData=  response.data.data;
+        console.log(this.userData.FullName);
+       } catch (error) {
+        console.log(error)
+       }
+      } 
+      },
+
   },
 };
 </script>

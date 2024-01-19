@@ -44,7 +44,15 @@
     word-wrap: break-word; /* Add this line */
     width: 100%;
 }
-
+.postImage{
+    width: 25%;
+    display: flex;
+  justify-content: center;
+  align-self: center;
+    margin-right: 8px;
+    border-radius: 10px;
+    height: 200px;
+  }
 .EachPostTitle{
     font-size: large;
     font-family: Arial, Helvetica, sans-serif;
@@ -81,3 +89,20 @@
     margin-right: 5px;
     margin-top: 5px;
 }
+@media screen and (min-width: 360px) and (max-width: 480px) {
+    .EachPost{
+        width: 300px;
+        flex-direction: column;
+    }
+    .postImage{
+        width: 80%;
+    }
+    .PostInfoImg{
+        justify-content: space-between;
+    }
+    .CommentsContainer{
+        margin: 10px;
+    }
+  }
+  @media screen and (min-width: 481px) and (max-width: 1024px) {
+  }

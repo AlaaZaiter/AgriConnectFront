@@ -72,7 +72,7 @@ import '../CSS/ContactUs.css'
 export default {
   data() {
     return {
-      name: 'contact',
+      name: '',
       
     };
   },

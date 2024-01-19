@@ -186,4 +186,10 @@ this.$i18n.locale = lang;
 .LoginButton:hover{
   cursor: pointer;
 }
+
+@media screen and (min-width: 360px) and (max-width: 480px) {
+  .modalContent{
+  width: 40%;
+}
+  }
 </style>

@@ -51,3 +51,18 @@ font-weight: bold;
     color: white;
     margin-top: 10px;
 }
+@media screen and (min-width: 360px) and (max-width: 480px) {
+    .SubPostsContainer{
+        flex-direction: column;
+    }
+    .SubPostsContainer div{
+        width: 100%;
+    }
+    
+
+  }
+  @media screen and (min-width: 481px) and (max-width: 1024px) {
+    .PostText{
+        font-size: large;
+    }
+  }

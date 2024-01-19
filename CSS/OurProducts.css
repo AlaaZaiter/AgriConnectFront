@@ -82,3 +82,19 @@
     border-radius: 10px;
     margin-bottom: 10px;
 }
+@media screen and (min-width: 360px) and (max-width: 480px) {
+    
+    .SubOurProductsContainer{
+        flex-direction: column;
+    }
+    .ProductItem{
+        width: 80%;
+    }
+  }
+  @media screen and (min-width: 481px) and (max-width: 1024px) {
+    .ProductsButton{
+        font-size: larger;
+        font-weight: bold;
+        height: 50px;
+    }
+  }

@@ -179,6 +179,7 @@ export default {
 
 .product-image {
   width: 100px;
+  height: 200px;
   height: auto;
   margin-right: 20px;
 }
@@ -197,10 +198,42 @@ export default {
 }
 /* ... your existing styles ... */
 .checkout-button {
-  /* Style your checkout button here */
+background-color: #355E3B;
+border-radius: 10px;
+margin: 10px;
+height:40px;
+width:100px;
+color: white;
+
 }
 .clear-cart-button {
-    /* Style your clear cart button here */
+background-color: #355E3B;  
+border-radius: 10px;
+height:40px;
+width:100px;
+color: white;
+}
+@media screen and (min-width: 360px) and (max-width: 480px) {
+    
+  .modal-content{
+    width: 70%;
+  }
+  }
+  @media screen and (min-width: 481px) and (max-width: 1024px) {
+    li{
+        margin: 10px;
+    }
+    .contact-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .inside-contact-container {
+        width: 100%;
+        width: 300px;
+        padding-left: 15px;
+        margin-bottom: 20px;
+      }
   }
 </style>
   
