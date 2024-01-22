@@ -5,7 +5,7 @@
       <table class="orders-table">
         <thead>
           <tr>
-            <th>Order ID</th>
+            <th >Order ID</th>
             <th>Total Amount</th>
             <th>Status</th>
             <th>Date</th>
@@ -15,16 +15,18 @@
         </thead>
         <tbody>
           <tr v-for="order in orders" :key="order.id">
-            <td>{{order.id}}</td>
-            <td>{{ order.TotalAmount }}</td>
-            <td>{{order.orderStatus}}</td>
-            <td>{{ order.created_at }}</td>
-            <td>
+            <td data-label="Order ID">{{order.id}}</td>
+            <td data-label="Amount">{{ order.TotalAmount }}</td>
+            <td data-label="Order Status">{{order.orderStatus}}</td>
+            <td data-label="Date">{{ order.created_at }}</td>
+            <td data-label="ProductsButton">
               <button class="SeeProductsBTN" @click="openProductsModal(order.id)">See your products</button>
               <!-- Products Modal -->
               <div v-if="isProductsModalOpen" class="modal">
                 <div class="modalContent">
-                  <button @click.stop="closeProductsModal"><img src='../images/close.png' class="closeButton"/></button>
+                  <button @click.stop="closeProductsModal">
+            <img src='../images/closed.png' class="closeButton"/>
+          </button>
                   <!-- Your modal content goes here -->
                   <div class="ProductsContainer" v-for="product in this.products" :key="product.id">
                     
@@ -35,6 +37,8 @@
                        <div class="ProductTextInfo">
                        <p class="productTitle">{{ product.Title }}</p>
                        <p>{{ product.description }}</p>
+                       <p>quantity : {{ product.Quantity }}</p>
+
                        <p class="productTitle">{{ product.price }} $</p>
                        
                        </div>
@@ -43,12 +47,12 @@
 
                     </ul>
                   </div>
-                  <p class="TotalAmountP">Total:360$</p>
+                  <p class="TotalAmountP">Total:{{ order.TotalAmount }}$</p>
 
                 </div>
               </div>
             </td>
-            <td><button class="CheckPaidBTN">Check if paid</button></td>
+            <td data-label="PaidButton"><button class="CheckPaidBTN" @click="HandlePaymentShow(order.id)">Check if paid</button></td>
           </tr>
         </tbody>
       </table>
@@ -78,12 +82,14 @@ export default {
       orders:[],
       products:[],
       userId:null,
+      PaymentStatus:'',
     };
   },
   async created() {
     this.userId = await getUserID();
-console.log(this.userId)
+    console.log(this.userId)
     this.fetchOrders();
+
 
   },
   methods: {
@@ -91,6 +97,20 @@ console.log(this.userId)
     closeProductsModal() {
       this.isProductsModalOpen = false;
     },
+    async HandlePaymentShow(orderId){
+  await this.getpaymentStatus(orderId); // Get the payment status
+
+  if(this.PaymentStatus !== 'succeeded') {
+    // Store order ID in local storage if payment is not succeeded
+    localStorage.setItem('pendingOrderId', orderId);
+    this.$router.push('/payment');
+  }else{
+    alert("Already Paid")
+  }
+
+  // Redirect to payment page
+}
+,
     async fetchOrders(){
       const api = 'http://localhost:6001/orderProducst/getOrderByUserID/' +this.userId;
      try {
@@ -98,6 +118,17 @@ console.log(this.userId)
       this.orders = response.data.data;     
     } catch (error) {
       console.error('Error fetching comments:', error);
+     }
+    },
+    async getpaymentStatus(orderId){
+      const api = 'http://localhost:6001/payment/getStatus/' +orderId;
+     try {
+      const response = await axios.get(api)
+      this.PaymentStatus = response.data.data.PaymentStatus;
+      
+      console.log(this.PaymentStatus)     
+    } catch (error) {
+      console.error('Error fetching payment status:', error);
      }
     },
     async fetchProducts(OrderId){
@@ -123,6 +154,7 @@ console.log(this.userId)
   box-shadow: 0 4px 8px ; /* Box shadow */
   margin: 10px;
   border-radius: 10px;
+  width: 70%;
 
 }
 .orders-table {
@@ -163,15 +195,14 @@ th {
   border: none;
   cursor: pointer;
   color: #000; 
-  width:50px;
-  height:50px;
+  width:30px;
+  height:30px;
 }
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
   background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   display: flex;
   flex-direction: row;
@@ -189,10 +220,14 @@ th {
   padding: 20px;
   border-radius: 8px;
   width: 90%;
+  overflow-y: auto; /* Enable vertical scrolling */
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 50px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
 }
 ul{
         list-style-type: none;
@@ -203,10 +238,11 @@ ul{
     border-radius: 10px;
     margin: 5px;
     }
-.EachProduct{
-    display:flex;
-    flex-direction:row;
-    
+    .EachProduct {
+  display: flex;
+  flex-direction: row;
+  width: 100%; /* Adjusted width */
+  margin-bottom: 10px; /* Add space between products */
 }
 .TotalAmountP{
     text-align:center;
@@ -223,4 +259,76 @@ ul{
 .ProductTextInfo p{
   color: #000;
 }
+
+@media screen and (min-width: 360px) and (max-width: 480px) {
+  th {
+    display: none; /* Hide the th elements */
+  }
+
+  td {
+    display: block;
+    width: 100%;
+    text-align: left; /* Align the text for better readability */
+    padding-left: 50%; /* Adjust as needed */
+    position: relative;
+  }
+
+  td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%; /* Adjust as needed */
+    padding-left: 15px; /* Adjust as needed */
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .orders-table {
+    width: 100%;
+  }
+  .SeeProductsBTN, .CheckPaidBTN {
+    padding: 5px;
+    font-size: 10px;
+    width: 100%;
+    background-color: #fff;
+    color: #355E3B;
+  }
+  .orders-table tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light color for odd rows */
+  }
+
+  .orders-table tr:nth-child(even) {
+    background-color: #eee; /* Slightly different color for even rows */
+  }
+  .orders-table tr{
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+
+  }
+  
+  .EachProduct{
+    flex-direction: column;
+  }
+  .ProductImg{
+    width: 100%;
+    margin: 0px;
+  }
+  
+  .modalContent {
+    width: 95%;
+    max-height: 90%;
+    margin-top: 100px;
+
+  }
+  .EachProduct {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+
+}
+
+  @media screen and (min-width: 481px) and (max-width: 1024px) {
+    
+  }
 </style>

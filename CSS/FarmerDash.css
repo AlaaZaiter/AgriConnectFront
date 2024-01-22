@@ -12,12 +12,14 @@
     display: flex;
     flex-direction: column;
     background-color: #355E3B;
+    overflow-x: hidden;
+
   }
   .dash-title {
     color: white;
     font-size: 40px;
-    margin-bottom: 50px;
     cursor: pointer;
+    align-self: center;
   }
   .dash-menu {
     color: white;
@@ -37,6 +39,14 @@
     text-align: center;
     align-self: flex-start;
     color: white;
+  }
+  .productimg{
+    width: 100%;
+    height: 100%;
+  }
+  .SuitableIcon{
+    width: 25px;
+    height: 25px;
   }
   .dash-menu-item::after {
     content: "";
@@ -58,23 +68,39 @@
     transform: rotate(180deg);
   }
   
-  table {
-    margin-top: 50px;
-    border-collapse: collapse;
-    width: 750px;
-    height: 100px;
-    text-align: center;
+  
+  thead{
+    background-color: #355E3B;
   }
+  
   .email-td-title {
     font-size: 20px;
     font-weight: bold;
   }
   table,
-  td,
-  th {
-    border: 1px solid #355E3B;
+  td {
+    border: 1px solid #ddd;
     color: #355E3B;
     padding: 10px; 
+    border-collapse: collapse;
+    word-wrap: break-word; /* Break long words and wrap onto next line */
+    white-space: normal;   /* Allow white space to wrap */
+    
+  }
+  table {
+    margin-top: 50px;
+    border-collapse: collapse;
+    width: 790px;
+    height: 100px;
+    text-align: center;
+    table-layout: fixed;
+
+  }
+  th {
+    border: 1px solid #ddd;
+    color: #fff;
+    padding: 10px; 
+    width: 95px;
     
   }
   .YourProductsContainer{

@@ -89,7 +89,7 @@ export default {
         const response = await axios.post('http://localhost:6001/order/add', {
           UserID: this.userId,
           TotalAmount: totalAmount,
-          orderStatus: "unpaid"
+          orderStatus: "pending"
         });
         return response.data.orderId;
       } catch (error) {

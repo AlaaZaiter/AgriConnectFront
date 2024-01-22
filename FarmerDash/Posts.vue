@@ -29,7 +29,17 @@
               <input v-else v-model="post.editedContent" class="editInput" />
             </td>
             <td class="content-cell">
-              <span v-if="!post.editMode">{{ post.File }}</span>
+                
+              <span v-if="!post.editMode">
+                
+                <video v-if="isVideo(post.File)" class="productimg" controls >
+    <source :src="post.File" type="video/mp4"> <!-- You may need to adjust the MIME type -->
+    Your browser does not support the video tag.
+  </video>
+  <!-- Render image tag if the file is not a video -->
+  <img v-else :src="post.File" alt="post" class="productimg"  >
+   
+              </span>
               <input v-else type="file" @change="handleFileChange($event, index)" class="editInput" />
             </td>
             <td>
@@ -143,6 +153,12 @@ export default {
     hideLoading() {
       this.isLoading = false;
     },
+    isVideo(file) {
+    // Adjusting regex to account for Firebase Storage URL format and encoded spaces
+    const isVideoFile = /\.mp4(%20|\?|$)/i.test(file);
+    return isVideoFile;
+
+  },
     showToast(message, type) {
       this.toast = { show: true, message, type };
       setTimeout(() => this.toast.show = false, 3000);

@@ -89,6 +89,7 @@ export default {
     },
     checkLogin() {
       this.isLoggedin = this.userId !== null;
+      console.log("here is usre id "+this.userId)
     },
     closeModal(event) {
       if (event.target.classList.contains('modal')) {
@@ -101,7 +102,8 @@ export default {
     changeLanguage(lang) {
 this.$i18n.locale = lang;
 
-  }
+  },
+  
 }};
 </script>
 

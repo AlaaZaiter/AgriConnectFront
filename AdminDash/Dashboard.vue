@@ -1,7 +1,9 @@
 <template >
   <div class="Dashboard">
     <div class="side-menu">
-      <p class="dash-title" @click="handleClick('default')">Welcome {{ this.userData.FullName }} </p>
+      <img  :src="this.userData.image" alt="no prfile image" class="ProfileImage"/>
+      <p class="dash-title" @click="handleClick('default')">Welcome  </p>
+      <p class="dash-title" style="margin-bottom: 50px;" @click="handleClick('default')"> {{ this.userData.FullName }} </p>
       <ul class="dash-menu">
         <li class="dash-menu-item" @click="handleClick('products')">Products</li>
         <li class="dash-menu-item" @click="handleClick('orders')">Accounts</li>
@@ -93,5 +95,11 @@ export default {
 </script>
 
 <style scoped>
-/* Add your component-specific styles here */
+.ProfileImage{
+  height: 100px;
+  width: 100px;
+  align-self: center;
+  margin-top: 10px;
+  border-radius: 50%;
+}
 </style>

@@ -10,7 +10,7 @@
           <video controls :src="post.File" alt="Post Image/Video" class="PostsImg"></video>
         </template>
         <p class="PostTitle"> Title</p>
-        <p class="PostText">{{ post.Content }}</p>
+        <p class="PostText">{{ post.translatedContent }}</p>
         <p class="discussionNumber">{{ post.DiscussionCount }} discussions</p>
       </div>
     </div>
@@ -29,6 +29,12 @@ export default {
       mostPopularPosts: [],
     };
   },
+  watch: {
+    '$i18n.locale': function(newLang, oldLang) {
+      if (newLang !== oldLang) {
+        this.fetchMostPopularPosts();
+      }
+    }},
   created() {
     this.fetchMostPopularPosts();
   },
@@ -36,15 +42,40 @@ export default {
     async fetchMostPopularPosts() {
       try {
         const response = await axios.get('http://localhost:6001/postdiscussions/getMost');
-        console.log(response)
-        this.mostPopularPosts = response.data.data.map(post => ({
-          ...post,
-          fileType: post.File.toLowerCase().endsWith('.mp4') ? 'video' : 'image',
+        const postsWithTranslations = await Promise.all(response.data.data.map(async (post) => {
+          const translatedContent = await this.translateTexts(post.Content);
+          return {
+            ...post,
+            translatedContent,
+            fileType: post.File.toLowerCase().endsWith('.mp4') ? 'video' : 'image',
+          };
         }));
+        this.mostPopularPosts = postsWithTranslations;
       } catch (error) {
         console.error('Error fetching most popular posts:', error);
       }
-    },
+    }, 
+    async translateTexts(message) {
+  const langCode = this.$i18n.locale;
+  console.log(`Translating to: ${langCode}`);
+  const translatedText = await this.translate(message, langCode);
+  console.log(`Original: ${message}, Translated: ${translatedText}`);
+  return translatedText;
+},
+    async translate(msg, to) {
+    try {
+        const response = await axios.post('http://localhost:6001/translate', {
+            msg: msg,
+            to: to
+        });
+        // Assuming the translated text is in the response
+        console.log(response.data.translation)
+        return response.data.translation;
+    } catch (error) {
+        console.error('Error translating:', error);
+        return msg; // Return the original message if translation fails
+    }
+}
   },
 };
 </script>

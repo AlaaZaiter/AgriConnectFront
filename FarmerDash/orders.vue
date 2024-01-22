@@ -12,7 +12,7 @@
       </thead>
       <tbody>
         <tr v-for="(order, index) in orders" :key="index">
-          <td>{{ order.Orderid }}</td>
+          <td>{{ order.id }}</td>
           <td>{{ order.TotalAmount }}</td>
           <td>{{ order.orderStatus }}</td>
           <td>{{ order.created_at }}</td>
@@ -38,9 +38,12 @@ export default {
   mounted() {
     this.fetchOrders();
   },
+  async created(){
+await this.fetchOrders()
+  },
   methods: {
     fetchOrders() {
-      const apiUrl = 'http://localhost:6001/orderProducst/getAll';
+      const apiUrl = 'http://localhost:6001/order/getAll';
 
       axios.get(apiUrl)
         .then(response => {

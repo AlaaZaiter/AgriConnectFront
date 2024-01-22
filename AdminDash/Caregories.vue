@@ -25,7 +25,7 @@
           </td>
           
           <td>
-            <span v-if="!category.editMode">{{ category.image }}</span>
+            <span v-if="!category.editMode"> <img :src="category.image" alt="" class="productimg"></span>
             <input v-else type="file" @change="handleFileChange($event, index)" />
           </td>
           

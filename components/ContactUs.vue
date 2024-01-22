@@ -10,21 +10,19 @@
               type="text"
               class="name contact-inp"
               placeholder="Your Name"
-              v-model="name"
-            />
+              v-model="sender_name"            />
             <input
               type="text"
               class="email contact-inp"
               placeholder="Your Email"
-              v-model="email"
-            />
+              v-model="sender_email"            />
             <textarea
               class="message-box contact-inp"
               placeholder="Message"
               v-model="message"
             ></textarea>
             <br />
-            <button class="contact-button" @click="handleAddEmail">
+            <button class="contact-button" @click="sendEmail">
               Send Message
             </button>
           </div>
@@ -68,41 +66,44 @@ zaiteralaa29@gmail.com                </a>
 </template>
 
 <script>
-import '../CSS/ContactUs.css'
+import '../CSS/ContactUs.css';
+import emailjs from "@emailjs/browser";
+
 export default {
   data() {
     return {
-      name: '',
-      
+      sender_name: '',
+      sender_email: '',
+      message: '',      
     };
   },
-  methods: {
-    async handleAddEmail() {
-      const emailBody = { name: this.name, email: this.email, message: this.message };
-      console.log(emailBody);
-      try {
-        const response = await fetch("http://localhost:5000/emails/addEmail", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(emailBody),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          window.alert("Message sent successfully!");
-        } else {
-          throw new Error("Network response was not ok");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        window.alert("Error sending message. Please try again later.");
-      }
-    },
+  mounted() {
+    emailjs.init("sEFemlWmIkQoje02F"); // Replace with your actual key
   },
-};
+  methods: {
+    sendEmail() {
+      const templateParams = {
+        sender_name: this.sender_name,
+        sender_email: this.sender_email,
+        message: this.message,
+      };
+
+      emailjs.send('service_niyaivm', 'template_l2qsnkh', templateParams)
+        .then(response => {
+          alert('SUCCESS!', response.status, response.text);
+          this.resetForm();
+        }, error => {
+          alert('FAILED...', error);
+        });
+    },
+    resetForm() {
+      this.sender_name = '';
+      this.sender_email = '';
+      this.message = '';
+    }
+  },
+  }
+;
 </script>
 
 <style scoped>

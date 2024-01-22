@@ -8,23 +8,40 @@
 <script>
 import axios from 'axios'
 export default {
-  name:'VerifyPage',
+  name: 'VerifyPage',
   data() {
     return {
       message: ''
-    };
+    };/*if (token) {
+          sessionStorage.setItem("authToken", token);
+          this.$router.push('/');
+
+        } else {
+          console.error('Token not found in response');
+        } */
   },
   async mounted() {
     try {
       const token = this.$route.query.token;
+      const userToken = this.$route.query.userToken;
       console.log(token)
       if (!token) {
         this.message = 'No verification token found.';
         return;
       }
 
+      console.log("here is the user token "+userToken)
+      if (userToken) {
+          sessionStorage.setItem("authToken", userToken);
+          this.$router.push('/');
+
+        } else {
+          console.error('Token not found in response');
+        }
+
       const response = await axios.put('http://localhost:6001/user/verify', { token });
       this.message = response.data.message;
+
     } catch (error) {
       this.message = 'Error verifying email: ' + error.message;
     }

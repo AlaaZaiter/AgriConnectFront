@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="payment-container">
     <form @submit.prevent="submitPayment">
       <h2>Payment Details</h2>
 
@@ -27,10 +27,15 @@ export default {
       stripe: null,
       cardElement: null,
       amount: null, // Example additional field
+      OrderId: null,
     };
   },
   async mounted() {
     await this.initializeStripe();
+  },
+  async created(){
+    this.OrderId = localStorage.getItem('pendingOrderId');
+
   },
   methods: {
     async initializeStripe() {
@@ -44,7 +49,7 @@ export default {
       try {
         // Example: Retrieve additional data like amount
         const {  PaymentStatus } = this.$route.params;
-        const OrderID = 81;
+        const OrderID = this.OrderId;
         const PaymentMethod ='credit card'
 
         // Create a token using Stripe's Card Element
@@ -76,5 +81,39 @@ export default {
 </script>
 
 <style>
-/* Your styles here */
-</style>
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.pay-button {
+  background-color: #355E3B;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+.payment-container {
+  background-color: white;
+  padding: 20px;
+  max-width: 400px;
+  margin: 50px auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+.pay-button:hover {
+  background-color: #90EE90;
+}</style>

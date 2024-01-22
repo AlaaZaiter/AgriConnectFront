@@ -3,8 +3,13 @@
     <AppHeader/>
     <div class="AllPostsContainer">
       <div v-for="post in posts" :key="post.id" class="EachPost">
-        <img :src="post.File" alt="post" class="postImage">
+        <video v-if="isVideo(post.File)" class="postImage" controls @click="openFileModal(post.File)">
+    <source :src="post.File" type="video/mp4"> <!-- You may need to adjust the MIME type -->
+    Your browser does not support the video tag.
+  </video>
 
+  <!-- Render image tag if the file is not a video -->
+  <img v-else :src="post.File" alt="post" class="postImage"  @click="openFileModal(post.File)">
         <div class="SubEachPost">
           <p class="EachPostTitle">post.Title</p>
           <p class="EachPostContent">{{ post.Content }}</p>
@@ -22,6 +27,24 @@
             </div>
             <img src='../images/Love.png'/>
           </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div v-if="FileModal" class="modal">
+        <div class="fileModalContent" >
+          <button @click.stop="closeModalFile">
+            <img src='../images/closed.png' class="closeButton"/>
+          </button>
+
+          <video v-if="isVideo( this.ShownFile)" class="ShownFile" controls >
+    <source :src=" this.ShownFile" type="video/mp4"> <!-- You may need to adjust the MIME type -->
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Render image tag if the file is not a video -->
+  <img v-else :src=" this.ShownFile" alt="post" class="ShownFile"  >
+
         </div>
       </div>
 
@@ -81,6 +104,8 @@ export default {
       comment:'',
       userId: null, // hardcoded value
       currentPostId: null,
+      FileModal:false,
+      ShownFile:null,
     };
   },
   async created() {
@@ -102,15 +127,28 @@ export default {
         console.log(this.userId +"")
       }
     },
+    openFileModal(postFile){
+      this.FileModal=true;
+      this.ShownFile=postFile;
+    },
     
     async fetchId() {
   this.userId = await getUserID();
   console.log("User ID after fetch:", this.userId); // This should log the fetched ID
 }
 ,
+isVideo(file) {
+    // Adjusting regex to account for Firebase Storage URL format and encoded spaces
+    const isVideoFile = /\.mp4(%20|\?|$)/i.test(file);
+    return isVideoFile;
+
+  },
     closeModal() {
       this.isModalOpen = false;
       this.currentPostId = null;
+    },
+    closeModalFile(){
+      this.FileModal=false;
     },
     async fetchPosts() {
       try {
@@ -247,6 +285,15 @@ justify-content:center;
   width:30px;
   height:30px;
 }
+.fileModalContent{
+  width: 80%;
+  height: 80%;
+}
+.ShownFile{
+  width: 100%;
+  height: 100%;
+}
+
 @media screen and (min-width: 360px) and (max-width: 480px) {
     .modalContent{
       width: 70%;

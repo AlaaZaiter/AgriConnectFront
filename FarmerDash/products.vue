@@ -41,7 +41,7 @@
           <input v-else v-model="product.editedPrice" class="editInput"/>
         </td>
         <td class="content-cell">
-          <span v-if="!product.editMode">{{ product.image }}</span>
+          <span v-if="!product.editMode"><img :src=" product.image" class="productimg"/></span>
           <input v-else type="file" @change="handleFileChange($event, index)" class="editInput" />
         </td>
         <td>
@@ -258,6 +258,7 @@ console.log("this is id "+editedProduct.id)
         this.showToast('Product updated successfully', 'success');
 
         this.products[index].editMode = false;
+        this.showYourProducts()
       })
       .catch(error => {
         console.error('Error updating product:', error);
