@@ -153,7 +153,7 @@ isVideo(file) {
     },
     async fetchPosts() {
   try {
-    const response = await axios.get('https://backendagri.onrender.com/post/getAll');
+    const response = await axios.get(`${process.env.VUE_APP_BASE_URL}/post/getAll`);
     const posts = response.data.data;
     // Initialize userData with an empty object for each post
     const userDataPromises = posts.map(post => {
@@ -175,7 +175,7 @@ isVideo(file) {
 },
 
     async fetchComments(postId) {
-      const api = 'https://backendagri.onrender.com/postdiscussions/getByPostID/' + postId;
+      const api = `${process.env.VUE_APP_BASE_URL}/postdiscussions/getByPostID/` + postId;
       try {
         const response = await axios.get(api);
         this.Comments = response.data.data;
@@ -184,7 +184,7 @@ isVideo(file) {
       }
     },
     async addComment() {
-      const api = 'https://backendagri.onrender.com/discussion/add' ;
+      const api = `${process.env.VUE_APP_BASE_URL}/discussion/add` ;
       try {
         const response = await axios.post(api,{
           Topic:'any',
@@ -198,7 +198,7 @@ isVideo(file) {
     },
     async addCommentPost() {
       const descId = await this.addComment();
-      const api = 'https://backendagri.onrender.com/postdiscussions/add' ;
+      const api = `${process.env.VUE_APP_BASE_URL}/postdiscussions/add` ;
       try {
         const response = await axios.post(api,{
           PostId:this.currentPostId,
@@ -212,7 +212,7 @@ this.fetchComments(this.currentPostId);
       }
     },
     async SuitUserData(userId) {
-  const api = 'https://backendagri.onrender.com/user/getByID/' + userId;
+  const api = `${process.env.VUE_APP_BASE_URL}/user/getByID/` + userId;
   try {
     const response = await axios.get(api);
     return {

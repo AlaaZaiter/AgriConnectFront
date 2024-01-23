@@ -45,7 +45,7 @@ export default {
   methods: {
     async fetchMostPopularPosts() {
       try {
-        const response = await axios.get('https://backendagri.onrender.com/postdiscussions/getMost');
+        const response = await axios.get(`${process.env.VUE_APP_BASE_URL}/postdiscussions/getMost`);
         const postsWithTranslations = await Promise.all(response.data.data.map(async (post) => {
           const translatedContent = await this.translateTexts(post.Content);
           return {
@@ -74,7 +74,7 @@ isVideo(file) {
   },
     async translate(msg, to) {
     try {
-        const response = await axios.post('https://backendagri.onrender.com/translate', {
+        const response = await axios.post(`${process.env.VUE_APP_BASE_URL}/translate`, {
             msg: msg,
             to: to
         });

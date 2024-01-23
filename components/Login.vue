@@ -112,7 +112,7 @@
     methods: {
       async handleLogin() {
       try {
-        const response = await axios.post('https://backendagri.onrender.com/user/login', {
+        const response = await axios.post(`${process.env.VUE_APP_BASE_URL}/user/login`, {
           email: this.emailLogin,
           password: this.passwordLogin,
         });
@@ -138,7 +138,7 @@
           formData.append("phoneNumber",this.phone)
           formData.append("password",this.password)
           formData.append("image",this.Image)
-          const response = await axios.post('https://backendagri.onrender.com/user/register',
+          const response = await axios.post(`${process.env.VUE_APP_BASE_URL}/user/register`,
             formData
           )
   

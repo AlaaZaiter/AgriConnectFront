@@ -75,7 +75,7 @@ export default {
     },
     async getUserData(userId){
       if(userId !=null){
-       const api =`https://backendagri.onrender.com/user/getByID/${userId}`;
+       const api =`${process.env.VUE_APP_BASE_URL}/user/getByID/${userId}`;
        try {
         const response=  await axios.get(api);
         console.log(api)

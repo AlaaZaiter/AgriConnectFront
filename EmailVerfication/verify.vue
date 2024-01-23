@@ -39,7 +39,7 @@ export default {
           console.error('Token not found in response');
         }
 
-      const response = await axios.put('https://backendagri.onrender.com/user/verify', { token });
+      const response = await axios.put(`${process.env.VUE_APP_BASE_URL}/user/verify`, { token });
       this.message = response.data.message;
 
     } catch (error) {

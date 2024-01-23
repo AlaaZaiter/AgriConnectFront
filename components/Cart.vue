@@ -86,7 +86,7 @@ export default {
     async addOrder() {
       const totalAmount = this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       try {
-        const response = await axios.post('https://backendagri.onrender.com/order/add', {
+        const response = await axios.post(`${process.env.VUE_APP_BASE_URL}/order/add`, {
           UserID: this.userId,
           TotalAmount: totalAmount,
           orderStatus: "pending"
@@ -101,7 +101,7 @@ export default {
     async addOrderProducts(productId, orderId, quantity) {
       // Replace with your implementation
       try {
-        await axios.post('https://backendagri.onrender.com/orderProducst/add', {
+        await axios.post(`${process.env.VUE_APP_BASE_URL}/orderProducst/add`, {
           Orderid: orderId,
           ProductId: productId,
           Quantity: quantity

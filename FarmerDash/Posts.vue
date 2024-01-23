@@ -171,7 +171,7 @@ export default {
     },
     handleAddPost() {
       this.showLoading()
-      const apiUrl = 'https://backendagri.onrender.com/post/add';
+      const apiUrl = `${process.env.VUE_APP_BASE_URL}/post/add`;
 
       // Assuming you have the necessary data in this.title, this.description, and this.file
       const formData = new FormData();
@@ -205,7 +205,7 @@ export default {
       this.addPostVisible = true;
     },
     fetchPosts() {
-      const apiUrl = 'https://backendagri.onrender.com/post/getAll';
+      const apiUrl = `${process.env.VUE_APP_BASE_URL}/post/getAll`;
 
       axios.get(apiUrl)
         .then(response => {
@@ -225,7 +225,7 @@ export default {
     saveEdit(index) {
       this.showLoading()
       const editedPost = this.posts[index];
-      const apiUrl = `https://backendagri.onrender.com/post/update/${editedPost.id}`;
+      const apiUrl = `${process.env.VUE_APP_BASE_URL}/post/update/${editedPost.id}`;
 
       const formData = new FormData();
       formData.append('Content', editedPost.editedContent);
@@ -263,7 +263,7 @@ export default {
     deletePost(index) {
       this.showLoading()
       const deletedPost = this.posts[index];
-      const apiUrl = `https://backendagri.onrender.com/post/delete/${deletedPost.id}`;
+      const apiUrl = `${process.env.VUE_APP_BASE_URL}/post/delete/${deletedPost.id}`;
       axios.delete(apiUrl)
         .then(response => {
           console.log('Post deleted successfully', response);
@@ -287,7 +287,7 @@ export default {
     },
     fetchDisussionsByPostId(postId) {
       console.log(postId)
-      const apiUrl = `https://backendagri.onrender.com/postdiscussions/getByPostID/${postId}`;
+      const apiUrl = `${process.env.VUE_APP_BASE_URL}/postdiscussions/getByPostID/${postId}`;
 
       axios.get(apiUrl)
         .then(response => {

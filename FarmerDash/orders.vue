@@ -43,7 +43,7 @@ await this.fetchOrders()
   },
   methods: {
     fetchOrders() {
-      const apiUrl = 'https://backendagri.onrender.com/order/getAll';
+      const apiUrl = `${process.env.VUE_APP_BASE_URL}/order/getAll`;
 
       axios.get(apiUrl)
         .then(response => {
@@ -55,7 +55,7 @@ await this.fetchOrders()
         });
     },
     approveOrder(orderId) {
-      const apiUrl = 'https://backendagri.onrender.com/order/updateStatus/'+orderId;
+      const apiUrl = `${process.env.VUE_APP_BASE_URL}/order/updateStatus/`+orderId;
       console.log('Approving order:', orderId);
       axios.put(apiUrl , {
         orderStatus: "completed",

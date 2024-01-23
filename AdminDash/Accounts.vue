@@ -87,7 +87,7 @@ export default {
   methods: {
     async handleAddUser() {
       try {
-        const response = await axios.post('https://backendagri.onrender.com/user/add', {
+        const response = await axios.post(`${process.env.VUE_APP_BASE_URL}/user/add`, {
           FullName: this.title,
           email: this.email,
           phoneNumber: this.phoneNumber,
@@ -120,7 +120,7 @@ export default {
     },
     async fetchUsers() {
       try {
-        const response = await axios.get('https://backendagri.onrender.com/user/getAll');
+        const response = await axios.get(`${process.env.VUE_APP_BASE_URL}/user/getAll`);
         this.users = response.data.data.map(user => ({
           ...user,
           editMode: false,
@@ -136,7 +136,7 @@ export default {
     async saveEdit(user) {
       this.showLoading()
       try {
-        const response = await axios.put(`https://backendagri.onrender.com/user/update/${user.id}`, {
+        const response = await axios.put(`${process.env.VUE_APP_BASE_URL}/user/update/${user.id}`, {
           role: user.editedRole,
           // Include other fields you want to update
         });
@@ -158,7 +158,7 @@ export default {
 
       const deletedUser = this.users[index];
       try {
-        const response = await axios.delete(`https://backendagri.onrender.com/user/delete/${deletedUser.id}`);
+        const response = await axios.delete(`${process.env.VUE_APP_BASE_URL}/user/delete/${deletedUser.id}`);
         console.log('User deleted successfully:', response.data);
         this.showToast('User deleted successfully','success')
         this.users.splice(index, 1);

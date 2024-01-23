@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     async initializeStripe() {
-      const stripePublicKey = 'pk_test_51OZd1WJFhc9UZk7ff69YNdGJxL8MpHQV8JpWxvt4oTRcr0QFf5UID1tUOg1KecBbimVMz0VeUXMp9VkXvrGCpNp9000z0xV4IH'; // Your Stripe public key
+      const stripePublicKey = 'pk_test_51OZd1WJFhc9UZk7ff69YNdGJxL8MpHQV8JpWxvt4oTRcr0QFf5UID1tUOg1KecBbimVMz0VeUXMp9VkXvrGCpNp9000z0xV4IH';
       this.stripe = await loadStripe(stripePublicKey);
       const elements = this.stripe.elements();
       this.cardElement = elements.create('card');
@@ -61,7 +61,7 @@ export default {
         }
 
         // Make a request to your backend API with the token and additional data
-        const response = await axios.post('https://backendagri.onrender.com/payment/pay', {
+        const response = await axios.post(`${process.env.VUE_APP_BASE_URL}/payment/pay`, {
           OrderID,
           amount: this.amount, // Use the amount from the data model
           PaymentStatus,
