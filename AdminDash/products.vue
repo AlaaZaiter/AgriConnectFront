@@ -159,7 +159,7 @@ export default {
     handleAddProduct() {
       this.showLoading();
 
-      const apiUrl = 'http://localhost:6001/product/add';
+      const apiUrl = 'https://backendagri.onrender.com/product/add';
 
       // Assuming you have the necessary data in this.title, this.stock, this.description, etc.
       const formData = new FormData();
@@ -201,7 +201,7 @@ export default {
       this.addProductVisible = true;
     },
     fetchProducts() {
-      const apiUrl = 'http://localhost:6001/product/getAll';
+      const apiUrl = 'https://backendagri.onrender.com/product/getAll';
 
       axios.get(apiUrl)
         .then(response => {
@@ -227,7 +227,7 @@ getCategoryTitle(categoryId) {
       this.showLoading();
 
       const editedProduct = this.products[index];
-      const apiUrl = `http://localhost:6001/product/update/${editedProduct.id}`;
+      const apiUrl = `https://backendagri.onrender.com/product/update/${editedProduct.id}`;
 console.log("this is id "+editedProduct.id)
       const formData = new FormData();
       formData.append('Title', editedProduct.editedTitle);
@@ -274,7 +274,7 @@ console.log("this is id "+editedProduct.id)
     deleteProduct(index) {
       this.showLoading();
       const deletedProduct = this.products[index];
-      const apiUrl = `http://localhost:6001/product/delete/${deletedProduct.id}`;
+      const apiUrl = `https://backendagri.onrender.com/product/delete/${deletedProduct.id}`;
       axios.delete(apiUrl)
         .then(response => {
           console.log('Product deleted successfully', response);
@@ -301,7 +301,7 @@ console.log("this is id "+editedProduct.id)
     },
     async fetchCategories(){
   try {
-    const response = await axios.get('http://localhost:6001/category/getAll');
+    const response = await axios.get('https://backendagri.onrender.com/category/getAll');
     this.Categories=response.data.data;
   } catch (error) {
     console.log(error)

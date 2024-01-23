@@ -77,7 +77,7 @@ export default {
     },
     async getUserData(userId){
       if(userId !=null){
-       const api =`http://localhost:6001/user/getByID/${userId}`;
+       const api =`https://backendagri.onrender.com/user/getByID/${userId}`;
        try {
         const response=  await axios.get(api);
         console.log(api)

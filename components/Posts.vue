@@ -17,7 +17,7 @@
             <div class="PostInfoImg">
               <img src='../images/Avatars.png'/>
               <div>
-                <p class="PostOwner">Pavel Gvay</p>
+                <p class="PostOwner">{{ userData[post.FarmerUserID]?.name }}</p>
                 <p class="PostDuration">{{ relativeTime(post.created_at) }}</p>
               </div>
             </div>
@@ -60,7 +60,7 @@
             <img src='../images/Avatars.png'/>
             <div class="infoComments">
               <div class="SubinfoComments">
-                <p class="PostOwner">Pavel Gvay</p>
+                <p class="PostOwner">{{ comment.FullName }}</p>
                 <p class="PostDuration">{{ relativeTime(comment.created_at) }}</p>
               </div>
               <p class="CommentContent">{{ comment.content }}</p>
@@ -106,6 +106,7 @@ export default {
       currentPostId: null,
       FileModal:false,
       ShownFile:null,
+      userData: {},
     };
   },
   async created() {
@@ -151,15 +152,30 @@ isVideo(file) {
       this.FileModal=false;
     },
     async fetchPosts() {
-      try {
-        const response = await axios.get('http://localhost:6001/post/getAll');
-        this.posts = response.data.data;
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
-    },
+  try {
+    const response = await axios.get('https://backendagri.onrender.com/post/getAll');
+    const posts = response.data.data;
+    // Initialize userData with an empty object for each post
+    const userDataPromises = posts.map(post => {
+      this.userData[post.FarmerUserID] = {}; // Initialize with an empty object
+      return this.SuitUserData(post.FarmerUserID);
+    });
+
+    // Fetch user data for each post
+    const usersData = await Promise.all(userDataPromises);
+    usersData.forEach((data, index) => {
+      const userId = posts[index].FarmerUserID;
+      this.userData[userId] = data;
+    });
+
+    this.posts = posts;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+  }
+},
+
     async fetchComments(postId) {
-      const api = 'http://localhost:6001/postdiscussions/getByPostID/' + postId;
+      const api = 'https://backendagri.onrender.com/postdiscussions/getByPostID/' + postId;
       try {
         const response = await axios.get(api);
         this.Comments = response.data.data;
@@ -168,7 +184,7 @@ isVideo(file) {
       }
     },
     async addComment() {
-      const api = 'http://localhost:6001/discussion/add' ;
+      const api = 'https://backendagri.onrender.com/discussion/add' ;
       try {
         const response = await axios.post(api,{
           Topic:'any',
@@ -182,18 +198,32 @@ isVideo(file) {
     },
     async addCommentPost() {
       const descId = await this.addComment();
-      const api = 'http://localhost:6001/postdiscussions/add' ;
+      const api = 'https://backendagri.onrender.com/postdiscussions/add' ;
       try {
         const response = await axios.post(api,{
           PostId:this.currentPostId,
           DiscussionID:descId,
         });
 console.log(response)
-this.fetchComments()
+this.fetchComments(this.currentPostId);
+
 } catch (error) {
         console.error('Error adding comment:', error);
       }
     },
+    async SuitUserData(userId) {
+  const api = 'https://backendagri.onrender.com/user/getByID/' + userId;
+  try {
+    const response = await axios.get(api);
+    return {
+      name: response.data.data.FullName,
+      image: response.data.data.image,
+    };
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    return {};
+  }
+},
   },
 };
 </script>
@@ -205,7 +235,6 @@ this.fetchComments()
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
   background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   display: flex;
   flex-direction: row;
@@ -223,6 +252,7 @@ this.fetchComments()
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .infoComments {

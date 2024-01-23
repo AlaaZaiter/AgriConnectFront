@@ -112,7 +112,7 @@ export default {
 }
 ,
     async fetchOrders(){
-      const api = 'http://localhost:6001/orderProducst/getOrderByUserID/' +this.userId;
+      const api = 'https://backendagri.onrender.com/orderProducst/getOrderByUserID/' +this.userId;
      try {
       const response = await axios.get(api)
       this.orders = response.data.data;     
@@ -121,7 +121,7 @@ export default {
      }
     },
     async getpaymentStatus(orderId){
-      const api = 'http://localhost:6001/payment/getStatus/' +orderId;
+      const api = 'https://backendagri.onrender.com/payment/getStatus/' +orderId;
      try {
       const response = await axios.get(api)
       this.PaymentStatus = response.data.data.PaymentStatus;
@@ -132,7 +132,7 @@ export default {
      }
     },
     async fetchProducts(OrderId){
-      const api = 'http://localhost:6001/orderProducst/getByOrderID/' +OrderId;
+      const api = 'https://backendagri.onrender.com/orderProducst/getByOrderID/' +OrderId;
      try {
       const response = await axios.get(api)
       this.products = response.data.data;     

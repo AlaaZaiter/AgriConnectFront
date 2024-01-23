@@ -132,7 +132,7 @@
     },
       handleAddProduct() {
         this.showLoading()
-        const apiUrl = 'http://localhost:6001/category/add';
+        const apiUrl = 'https://backendagri.onrender.com/category/add';
   
         // Assuming you have the necessary data in this.title, this.stock, this.description, etc.
         const formData = new FormData();
@@ -170,7 +170,7 @@
         this.addProductVisible = true;
       },
       fetchProducts() {
-        const apiUrl = 'http://localhost:6001/category/getAll';
+        const apiUrl = 'https://backendagri.onrender.com/category/getAll';
   
         axios.get(apiUrl)
           .then(response => {
@@ -190,7 +190,7 @@
       saveEdit(index) {
         this.showLoading()
         const editedProduct = this.categories[index];
-        const apiUrl = `http://localhost:6001/category/update/${editedProduct.id}`;
+        const apiUrl = `https://backendagri.onrender.com/category/update/${editedProduct.id}`;
   console.log("this is id "+editedProduct.id)
         const formData = new FormData();
         formData.append('Title', editedProduct.editedTitle);
@@ -218,7 +218,7 @@
       },
       deleteProduct(index) {
         const deletedProduct = this.categories[index];
-        const apiUrl = `http://localhost:6001/category/delete/${deletedProduct.id}`;
+        const apiUrl = `https://backendagri.onrender.com/category/delete/${deletedProduct.id}`;
         axios.delete(apiUrl)
           .then(response => {
             console.log('Product deleted successfully', response);

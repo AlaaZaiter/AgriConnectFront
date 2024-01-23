@@ -3,12 +3,16 @@
     <p class="PostsTitle">Most Popular Posts</p>
     <div class="SubPostsContainer">
       <div v-for="post in mostPopularPosts" :key="post.id">
-        <template v-if="post.fileType === 'image'">
-          <img :src="post.File" alt="Post Image/Video" class="PostsImg" />
-        </template>
-        <template v-else-if="post.fileType === 'video'">
-          <video controls :src="post.File" alt="Post Image/Video" class="PostsImg"></video>
-        </template>
+
+
+        
+        <video v-if="isVideo( post.File)" class="PostsImg" controls >
+    <source :src=" post.File" type="video/mp4"> <!-- You may need to adjust the MIME type -->
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Render image tag if the file is not a video -->
+  <img v-else :src=" post.File" alt="post" class="PostsImg"  >
         <p class="PostTitle"> Title</p>
         <p class="PostText">{{ post.translatedContent }}</p>
         <p class="discussionNumber">{{ post.DiscussionCount }} discussions</p>
@@ -41,7 +45,7 @@ export default {
   methods: {
     async fetchMostPopularPosts() {
       try {
-        const response = await axios.get('http://localhost:6001/postdiscussions/getMost');
+        const response = await axios.get('https://backendagri.onrender.com/postdiscussions/getMost');
         const postsWithTranslations = await Promise.all(response.data.data.map(async (post) => {
           const translatedContent = await this.translateTexts(post.Content);
           return {
@@ -62,9 +66,15 @@ export default {
   console.log(`Original: ${message}, Translated: ${translatedText}`);
   return translatedText;
 },
+isVideo(file) {
+    // Adjusting regex to account for Firebase Storage URL format and encoded spaces
+    const isVideoFile = /\.mp4(%20|\?|$)/i.test(file);
+    return isVideoFile;
+
+  },
     async translate(msg, to) {
     try {
-        const response = await axios.post('http://localhost:6001/translate', {
+        const response = await axios.post('https://backendagri.onrender.com/translate', {
             msg: msg,
             to: to
         });

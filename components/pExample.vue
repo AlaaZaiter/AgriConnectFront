@@ -61,7 +61,7 @@ export default {
         }
 
         // Make a request to your backend API with the token and additional data
-        const response = await axios.post('http://localhost:6001/payment/pay', {
+        const response = await axios.post('https://backendagri.onrender.com/payment/pay', {
           OrderID,
           amount: this.amount, // Use the amount from the data model
           PaymentStatus,

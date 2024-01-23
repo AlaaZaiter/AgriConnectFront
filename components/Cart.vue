@@ -1,7 +1,7 @@
 <template>
   <div class="modal" v-if="isVisible">
     <div class="modal-content">
-      <span class="close" @click="closeModal">&times;</span>
+      <span class="close" >&times;</span>
       <h2>Your Cart</h2>
       
       <div v-if="cartItems.length === 0">
@@ -86,7 +86,7 @@ export default {
     async addOrder() {
       const totalAmount = this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       try {
-        const response = await axios.post('http://localhost:6001/order/add', {
+        const response = await axios.post('https://backendagri.onrender.com/order/add', {
           UserID: this.userId,
           TotalAmount: totalAmount,
           orderStatus: "pending"
@@ -101,7 +101,7 @@ export default {
     async addOrderProducts(productId, orderId, quantity) {
       // Replace with your implementation
       try {
-        await axios.post('http://localhost:6001/orderProducst/add', {
+        await axios.post('https://backendagri.onrender.com/orderProducst/add', {
           Orderid: orderId,
           ProductId: productId,
           Quantity: quantity
@@ -138,7 +138,7 @@ export default {
     margin: auto;
     padding: 0;
     border: 1px solid #888;
-    width: 50%;
+    width: 80%;
     box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   animation-name: animatetop;
   animation-duration: 0.4s

@@ -11,7 +11,7 @@
       <a href="/#contactContainer"><li>{{ $t('message.contactus') }}</li></a>
     </ul>
 
-    <img src='../images/profile.png' alt="Menu Image" class="MenuImg" @click="toggleModal" v-if="isLoggedin"/>
+    <img :src="this.userData.image" alt="Menu Image" class="MenuImg" @click="toggleModal" v-if="isLoggedin"/>
    <a v-else href="/login"> <button  class="LoginButton" > {{ $t('message.login') }}</button></a>
   </div>
 
@@ -47,6 +47,7 @@ import Multiselect from '@vueform/multiselect'
 import '@vueform/multiselect/themes/default.css'
 import CartModal from './Cart.vue'
 import {getUserID} from '../Util/Userdata'
+import axios from 'axios'
 
 export default {
   name: 'AppHeader',
@@ -62,6 +63,8 @@ export default {
       isCartModalVisible: false,
       userId: null,
       isLoggedin: false,
+      userData:{},
+
     };
   },
   watch: {
@@ -76,6 +79,8 @@ export default {
   async created() {
     this.userId = await getUserID();
     this.checkLogin();
+    await this.getUserData(this.userId);
+
   },
   methods: {
     toggleModal() {
@@ -87,6 +92,20 @@ export default {
       this.isModalVisible = false; // Hide modal if it's open
       // You can add any additional logout cleanup here
     },
+    async getUserData(userId){
+      if(userId !=null){
+       const api =`https://backendagri.onrender.com/user/getByID/${userId}`;
+       try {
+        const response=  await axios.get(api);
+        console.log(api)
+        console.log(response.data.data.FullName)
+        this.userData=  response.data.data;
+        console.log(this.userData.FullName);
+       } catch (error) {
+        console.log(error)
+       }
+      } 
+      },
     checkLogin() {
       this.isLoggedin = this.userId !== null;
       console.log("here is usre id "+this.userId)

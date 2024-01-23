@@ -42,7 +42,7 @@ export default {
   methods: {
     async fetchCategories() {
       try {
-        const response = await axios.get('http://localhost:6001/category/getAll');
+        const response = await axios.get('https://backendagri.onrender.com/category/getAll');
         this.Categories = response.data.data;
       } catch (error) {
         console.log(error);

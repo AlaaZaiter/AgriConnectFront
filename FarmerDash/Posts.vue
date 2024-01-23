@@ -83,16 +83,16 @@
      <div v-if="showDiscussionModal" class="modal">
         <div class="modalContent">
           <!-- Close button (x) to close the modal -->
-          <button  @click.stop="closeDiscussionModal"> <img src='../images/close.png' class="closeButton"/></button>
+          <button  @click.stop="closeDiscussionModal"> <img src='../images/closed.png' class="closeButton"/></button>
 
           <!-- Your modal content goes here -->
           
           <div v-for="(discussion, index) in discussions" :key="index" class="CommentContainer">
-        <img src='../images/Avatars.png'/>
+        <img  :src="discussion.image" class="discussionProfile"/>
         <div class="infoComments">
           <div class="SubinfoComments">
-            <p class="PostOwner">{{ discussion.content }}</p>
-            <p class="PostDuration">just now</p>
+            <p class="PostOwner">{{ discussion.FullName }}</p>
+            <p class="PostDuration">{{ relativeTime(discussion.created_at) }}</p>
           </div>
           <p class="CommentContent">{{ discussion.content }}</p>
         </div>
@@ -114,7 +114,9 @@
 <script>
 import axios from 'axios';
 import {getUserID} from '../Util/Userdata'
-import '../CSS/UIUX.css'
+import '../CSS/UIUX.css';
+import moment from 'moment';
+
 
 export default {
   name: 'postsDash',
@@ -147,6 +149,10 @@ export default {
       // Update the 'file' property used for adding a post
       this.file = event.target.files[0];
     },
+    relativeTime(dateString) {
+      const date = moment(dateString);
+      return date.fromNow();
+    },
     showLoading() {
       this.isLoading = true;
     },
@@ -165,7 +171,7 @@ export default {
     },
     handleAddPost() {
       this.showLoading()
-      const apiUrl = 'http://localhost:6001/post/add';
+      const apiUrl = 'https://backendagri.onrender.com/post/add';
 
       // Assuming you have the necessary data in this.title, this.description, and this.file
       const formData = new FormData();
@@ -199,7 +205,7 @@ export default {
       this.addPostVisible = true;
     },
     fetchPosts() {
-      const apiUrl = 'http://localhost:6001/post/getAll';
+      const apiUrl = 'https://backendagri.onrender.com/post/getAll';
 
       axios.get(apiUrl)
         .then(response => {
@@ -219,7 +225,7 @@ export default {
     saveEdit(index) {
       this.showLoading()
       const editedPost = this.posts[index];
-      const apiUrl = `http://localhost:6001/post/update/${editedPost.id}`;
+      const apiUrl = `https://backendagri.onrender.com/post/update/${editedPost.id}`;
 
       const formData = new FormData();
       formData.append('Content', editedPost.editedContent);
@@ -257,7 +263,7 @@ export default {
     deletePost(index) {
       this.showLoading()
       const deletedPost = this.posts[index];
-      const apiUrl = `http://localhost:6001/post/delete/${deletedPost.id}`;
+      const apiUrl = `https://backendagri.onrender.com/post/delete/${deletedPost.id}`;
       axios.delete(apiUrl)
         .then(response => {
           console.log('Post deleted successfully', response);
@@ -281,7 +287,7 @@ export default {
     },
     fetchDisussionsByPostId(postId) {
       console.log(postId)
-      const apiUrl = `http://localhost:6001/postdiscussions/getByPostID/${postId}`;
+      const apiUrl = `https://backendagri.onrender.com/postdiscussions/getByPostID/${postId}`;
 
       axios.get(apiUrl)
         .then(response => {
@@ -321,9 +327,10 @@ export default {
   padding: 20px;
   border-radius: 8px;
   width: 90%;
-  display: flex;
+height: 80%;  display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 5px;
   flex-direction: column;
 }
 
@@ -352,6 +359,7 @@ export default {
   /* Box shadow */
   border-radius: 10px;
   padding:5px;
+  margin: 5px;
 }
   .content-cell {
   width: 300px; /* Adjust the width as needed */
@@ -393,5 +401,10 @@ justify-content:center;
   color: #000; 
   width:50px;
   height:50px;
+}
+.discussionProfile{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }
 </style>

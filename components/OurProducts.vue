@@ -42,7 +42,7 @@ export default {
   methods: {
     async fetchProducts() {
       try {
-        const response = await axios.get('http://localhost:6001/product/getAll');
+        const response = await axios.get('https://backendagri.onrender.com/product/getAll');
         this.products = response.data.data;
       } catch (error) {
         console.error('Error fetching products:', error);
